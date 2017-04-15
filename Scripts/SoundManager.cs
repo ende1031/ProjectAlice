@@ -8,6 +8,7 @@ public class SoundManager : MonoBehaviour
     public static SoundManager instance = null;     //싱글톤       
     public float lowPitchRange = .95f;              //피치 랜덤
     public float highPitchRange = 1.05f;            //ㄴ
+    public float musicVol = 1.0f;
 
 
     void Awake()
@@ -19,6 +20,8 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
 
         DontDestroyOnLoad(gameObject);
+
+        musicSource.volume = musicVol;
     }
 
 

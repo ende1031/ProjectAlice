@@ -44,6 +44,11 @@ public class PlayerController : MonoBehaviour {
     Animator animator;
     public bool isMove;
 
+    //사운드 관련
+    public AudioClip mgSound1;
+    public float gunSoundOutTime = 0.11f; //나중에 사운드가 추가되면 수정.
+    float soundDelay = 0;
+
     // Use this for initialization
     void Start ()
     {
@@ -82,9 +87,36 @@ public class PlayerController : MonoBehaviour {
                     Instantiate(PrefabBullet, transform.position, transform.rotation).GetComponent<BulletCollider>().Direction = DirRight;
                 }
                 delay = AttackSpeed;
+
+
+                if (!SoundManager.instance.efxSource.isPlaying)
+                {
+                    switch (PlayerNumber)
+                    {
+                        case 1:
+                            //SoundManager.instance.RandomizeSfx(mgSound1);
+                            SoundManager.instance.PlaySingle(mgSound1);
+                            break;
+                        case 2:
+                            break;
+                    }
+
+                    soundDelay = gunSoundOutTime;
+                }
+                   
+
             }
         }
         delay -= Time.deltaTime;
+
+        if (soundDelay > 0)
+            soundDelay -= Time.deltaTime;
+
+
+        if (Input.GetKeyUp(Key.Attack) && soundDelay <= 0)
+        {
+            SoundManager.instance.efxSource.Stop();
+        }
 
         //점프
         if (this.CharacterController.isGrounded)
