@@ -35,7 +35,9 @@ public class PlayerController : MonoBehaviour {
     public GameObject PrefabBullet;
     GameObject Bullet;
     public float AttackSpeed;
-    float delay = 0;
+    float Attack_Pre_delay; //공격 시전 모션
+    float delay;
+    Vector3 MakeBulletPosition;
 
     //다른 플레이어
     public GameObject OtherPlayer;
@@ -43,6 +45,10 @@ public class PlayerController : MonoBehaviour {
     //애니메이션 관련
     Animator animator;
     public bool isMove;
+    bool isAttack;
+
+    //사운드 관련
+    AudioSource shootSource;
 
     // Use this for initialization
     void Start ()
@@ -54,6 +60,9 @@ public class PlayerController : MonoBehaviour {
 
         animator = GetComponent<Animator>();
         isMove = false;
+
+        shootSource = GetComponent<AudioSource>();
+
     }
 	
 	// Update is called once per frame
@@ -69,77 +78,84 @@ public class PlayerController : MonoBehaviour {
     void playerInput()
     {
         //공격
-        if (delay <= 0)
+        if (Input.GetKey(Key.Attack) && this.CharacterController.isGrounded)
         {
-            if (Input.GetKey(Key.Attack))
-            {
-                if (Direction == DirLeft)
-                {
-                    Instantiate(PrefabBullet, transform.position, transform.rotation).GetComponent<BulletCollider>().Direction = DirLeft;
-                }
-                else if(Direction == DirRight)
-                {
-                    Instantiate(PrefabBullet, transform.position, transform.rotation).GetComponent<BulletCollider>().Direction = DirRight;
-                }
-                delay = AttackSpeed;
-            }
+            Attack();    
         }
-        delay -= Time.deltaTime;
-
-        //점프
-        if (this.CharacterController.isGrounded)
+        if(Input.GetKeyUp(Key.Attack))
         {
-            if (Input.GetKeyDown(Key.Jump))
-            {
-                MoveDirection.y = JumpPower;
-            }
+            Attack_Pre_delay = 0;
+            isAttack = false;
+        }
+       
+        //총소리가 발사 간격 보다 길게 재생되지 않게 중지.
+        if (shootSource.isPlaying && Time.time > delay)
+        {
+            shootSource.Stop();
         }
 
-        //좌우 이동
-        if (Input.GetKey(Key.Left) && Input.GetKey(Key.Right))
+        //공격중 이동불가
+        if (isAttack == false)
         {
-            MoveDirection.x = 0;
-        }
-        else if (Input.GetKey(Key.Left))
-        {
-            if(OtherPlayer.transform.position.x < transform.position.x + 90)
-                MoveDirection.x = -Speed;
-            else
+            //점프
+            if (this.CharacterController.isGrounded)
+            {
+                if (Input.GetKeyDown(Key.Jump))
+                {
+                    MoveDirection.y = JumpPower;
+                }
+            }
+            //좌우 이동
+            if (Input.GetKey(Key.Left) && Input.GetKey(Key.Right))
+            {
                 MoveDirection.x = 0;
-        }
-        else if (Input.GetKey(Key.Right))
-        {
-            if (OtherPlayer.transform.position.x > transform.position.x - 90)
-                MoveDirection.x = Speed;
+            }
+            else if (Input.GetKey(Key.Left))
+            {
+                if (OtherPlayer.transform.position.x < transform.position.x + 90)
+                    MoveDirection.x = -Speed;
+                else
+                    MoveDirection.x = 0;
+            }
+            else if (Input.GetKey(Key.Right))
+            {
+                if (OtherPlayer.transform.position.x > transform.position.x - 90)
+                    MoveDirection.x = Speed;
+                else
+                    MoveDirection.x = 0;
+            }
             else
+            {
                 MoveDirection.x = 0;
+            }
+
+            //앞뒤 이동
+            if (Input.GetKey(Key.Up) && Input.GetKey(Key.Down))
+            {
+                MoveDirection.z = 0;
+            }
+            else if (Input.GetKey(Key.Up))
+            {
+                if (OtherPlayer.transform.position.z > transform.position.z - 90)
+                    MoveDirection.z = Speed;
+                else
+                    MoveDirection.z = 0;
+            }
+            else if (Input.GetKey(Key.Down))
+            {
+                if (OtherPlayer.transform.position.z < transform.position.z + 90)
+                    MoveDirection.z = -Speed;
+                else
+                    MoveDirection.z = 0;
+            }
+            else
+            {
+                MoveDirection.z = 0;
+            }
         }
         else
         {
             MoveDirection.x = 0;
-        }
-
-        //앞뒤 이동
-        if (Input.GetKey(Key.Up) && Input.GetKey(Key.Down))
-        {
-            MoveDirection.z = 0;
-        }
-        else if (Input.GetKey(Key.Up))
-        {
-            if (OtherPlayer.transform.position.z > transform.position.z - 90)
-                MoveDirection.z = Speed;
-            else
-                MoveDirection.z = 0;
-        }
-        else if (Input.GetKey(Key.Down))
-        {
-            if (OtherPlayer.transform.position.z < transform.position.z + 90)
-                MoveDirection.z = -Speed;
-            else
-                MoveDirection.z = 0;
-        }
-        else
-        {
             MoveDirection.z = 0;
         }
     }
@@ -158,6 +174,28 @@ public class PlayerController : MonoBehaviour {
             isMove = false;
         else
             isMove = true;
+    }
+
+    //공격
+    void Attack()
+    {
+        isAttack = true;
+        Attack_Pre_delay += Time.deltaTime;
+        if (Attack_Pre_delay > 0.4f && Time.time > delay)
+        {
+            shootSource.Play();
+
+            MakeBulletPosition = new Vector3(transform.position.x, transform.position.y - 3.5f, transform.position.z);
+            if (Direction == DirLeft)
+            {
+                Instantiate(PrefabBullet, MakeBulletPosition, transform.rotation).GetComponent<BulletCollider>().Direction = DirLeft;
+            }
+            else if (Direction == DirRight)
+            {
+                Instantiate(PrefabBullet, MakeBulletPosition, transform.rotation).GetComponent<BulletCollider>().Direction = DirRight;
+            }
+            delay = AttackSpeed + Time.time;
+        }
     }
 
     //플레이어 1,2에 따라 키설정
@@ -210,6 +248,7 @@ public class PlayerController : MonoBehaviour {
         {
             animator.SetBool("isMove", isMove);
             animator.SetBool("isGround", this.CharacterController.isGrounded);
+            animator.SetBool("isAttack", isAttack);
         }
     }
 }

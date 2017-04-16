@@ -27,8 +27,8 @@ public class LightAlpa : MonoBehaviour {
         {
             if(!DecreaseAlpa) //Alpa증가
             {
-                Alpa += 0.01f;
-                if (Alpa >= 0.6f)
+                Alpa += 0.005f;
+                if (Alpa >= 0.3f)
                     DecreaseAlpa = true;
             }
             else //Alpa감소

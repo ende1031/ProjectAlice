@@ -15,12 +15,18 @@ public class BulletCollider : MonoBehaviour {
     Vector3 Scale;
     Vector3 TempPosition;
 
+    public AudioClip hitSound1;
+    //AudioSource source;
+
+    public GameObject explosion;
+
     // Use this for initialization
     void Start ()
     {
         StartPosition = transform.position;
         TempPosition = transform.position;
         Scale = transform.localScale;
+        //source = GetComponent<AudioSource>();
     }
 	
 	// Update is called once per frame
@@ -47,15 +53,23 @@ public class BulletCollider : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "monster")
+        //쓸모 없는 충돌 리턴.
+        if (other.gameObject.tag == "Player")
+        {
+            //Debug.Log("Player");
+            return;
+        }
+
+        Instantiate(explosion, transform.position, transform.rotation);
+        SoundManager.instance.RandomizeSfx(hitSound1);
+
+        if (other.gameObject.tag == "monster")
         {
             Destroy(other.gameObject);
-            Destroy(this.gameObject);
         }
-        if (other.gameObject.tag == "object")
-        {
-            Destroy(this.gameObject);
-        }
+        
+        Destroy(this.gameObject);
+        
     }
 
     //왼쪽으로 갈땐 스프라이트를 뒤집음

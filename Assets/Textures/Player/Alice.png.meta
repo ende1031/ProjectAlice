@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 7a4d492c6cc70134582c81a70cf348ae
-timeCreated: 1492113253
+timeCreated: 1492321400
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -29,6 +29,7 @@ TextureImporter:
     21300044: Attack_0
     21300046: Attack_1
     21300048: Attack_2
+    21300050: Move_4
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -399,6 +400,19 @@ TextureImporter:
         serializedVersion: 2
         x: 320
         y: 0
+        width: 160
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Move_4
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 480
         width: 160
         height: 160
       alignment: 0
