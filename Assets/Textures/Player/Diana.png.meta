@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 0dc27b8ca7df3624ea8c3b598eb09ffb
-timeCreated: 1492113962
+timeCreated: 1492349938
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -28,7 +28,7 @@ TextureImporter:
     21300042: Attack_0
     21300044: Attack_1
     21300046: Attack_2
-    21300048: Diana_0
+    21300048: Move_4
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -399,6 +399,19 @@ TextureImporter:
         serializedVersion: 2
         x: 320
         y: 0
+        width: 160
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Move_4
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 480
         width: 160
         height: 160
       alignment: 0

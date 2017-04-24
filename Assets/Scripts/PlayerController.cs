@@ -25,9 +25,9 @@ public class PlayerController : MonoBehaviour {
     CharacterController CharacterController;
 
     //좌우 방향 관련 변수
-    bool DirLeft = true;
-    bool DirRight = false;
-    public bool Direction = false;
+    bool DirLeft;
+    bool DirRight;
+    public bool Direction;
     Vector3 Scale;
     Vector3 TempPosition;
 
@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour {
 
     //애니메이션 관련
     Animator animator;
-    public bool isMove;
+    bool isMove;
     bool isAttack;
 
     //사운드 관련
@@ -55,14 +55,17 @@ public class PlayerController : MonoBehaviour {
     {
         CharacterController = GetComponent<CharacterController>();
         KeySetting();
+
         Scale = transform.localScale;
         TempPosition = transform.position;
+        DirLeft = true;
+        DirRight = false;
+        Direction = false;
 
         animator = GetComponent<Animator>();
         isMove = false;
 
         shootSource = GetComponent<AudioSource>();
-
     }
 	
 	// Update is called once per frame
