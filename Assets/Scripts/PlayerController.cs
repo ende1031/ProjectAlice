@@ -50,6 +50,9 @@ public class PlayerController : MonoBehaviour {
     //사운드 관련
     AudioSource shootSource;
 
+    //목숨(하트)
+    public int HartCount;
+
     // Use this for initialization
     void Start ()
     {

@@ -20,12 +20,18 @@ public class BulletCollider : MonoBehaviour {
 
     public GameObject explosion;
 
+    //점수 관련
+    GameObject Score;
+
     // Use this for initialization
     void Start ()
     {
         StartPosition = transform.position;
         TempPosition = transform.position;
         Scale = transform.localScale;
+
+        Score = GameObject.FindGameObjectWithTag("ScoreUI");
+
         //source = GetComponent<AudioSource>();
     }
 	
@@ -65,6 +71,9 @@ public class BulletCollider : MonoBehaviour {
 
         if (other.gameObject.tag == "monster")
         {
+            //스코어 증가
+            Score.GetComponent<Score>().ScoreCount += other.GetComponent<MonsterController>().Score;
+            //해당 몬스터 삭제
             Destroy(other.gameObject);
         }
         

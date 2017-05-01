@@ -25,6 +25,9 @@ public class MonsterController : MonoBehaviour {
     Animator animator;
     bool isAttack;
 
+    //스토어 관련
+    public int Score; //처치시 획득하는 스코어
+
     // Use this for initialization
     void Start ()
     {
@@ -100,7 +103,6 @@ public class MonsterController : MonoBehaviour {
     {
         if (animator)
         {
-            Debug.Log("set");
             animator.SetBool("isAttack", isAttack);
         }
     }
@@ -110,7 +112,6 @@ public class MonsterController : MonoBehaviour {
     {
         if (transform.position.x > TempPosition.x) //오른쪽으로 이동시
         {
-            Debug.Log("오른쪽 이동");
             if (Scale.x > 0) Scale.x *= -1;
             transform.localScale = Scale;
             TempPosition = transform.position;
@@ -118,7 +119,6 @@ public class MonsterController : MonoBehaviour {
         }
         else if (transform.position.x < TempPosition.x) //왼쪽으로 이동시
         {
-            Debug.Log("왼쪽 이동");
             if (Scale.x < 0) Scale.x *= -1;
             transform.localScale = Scale;
             TempPosition = transform.position;

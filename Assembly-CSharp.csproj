@@ -49,10 +49,13 @@
      <Compile Include="Assets\Scripts\BulletCollider.cs" />
      <Compile Include="Assets\Scripts\Button_GameStart.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
+     <Compile Include="Assets\Scripts\Dialogue.cs" />
+     <Compile Include="Assets\Scripts\Hart.cs" />
      <Compile Include="Assets\Scripts\HowToPlay.cs" />
      <Compile Include="Assets\Scripts\LightAlpa.cs" />
      <Compile Include="Assets\Scripts\MonsterController.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Score.cs" />
      <Compile Include="Assets\Scripts\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Title.cs" />
  <Reference Include="UnityEngine.UI">

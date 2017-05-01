@@ -10,7 +10,6 @@ public class Button_GameStart : MonoBehaviour
     {
         Debug.Log("버튼 눌림");
 
-
         SoundManager.instance.PlaySingle(SoundManager.instance.buttonSound1);
 
         //메인 브금 스탑.
