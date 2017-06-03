@@ -76,8 +76,7 @@ public class PlayerController : MonoBehaviour {
         shootSource = GetComponent<AudioSource>();
     }
 	
-	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
     {
         playerInput();
         Move();

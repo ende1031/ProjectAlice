@@ -66,7 +66,7 @@ public class BulletCollider : MonoBehaviour {
         }
 
         Instantiate(explosion, transform.position, transform.rotation);
-        SoundManager.instance.RandomizeSfx(hitSound1);
+        GameManager.instance.RandomizeSfx(hitSound1);
 
         if (other.gameObject.tag == "monster")
         {
