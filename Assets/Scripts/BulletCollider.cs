@@ -60,9 +60,8 @@ public class BulletCollider : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         //쓸모 없는 충돌 리턴.
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" || other.gameObject.tag == "HitBox")
         {
-            //Debug.Log("Player");
             return;
         }
 
@@ -71,6 +70,7 @@ public class BulletCollider : MonoBehaviour {
 
         if (other.gameObject.tag == "monster")
         {
+            Debug.Log("아무튼 충돌");
             //스코어 증가
             Score.GetComponent<Score>().ScoreCount += other.GetComponent<MonsterController>().Score;
             //해당 몬스터 삭제

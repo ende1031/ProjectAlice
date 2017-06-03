@@ -41,7 +41,7 @@ public class MonsterController : MonoBehaviour {
         DirRight = false;
         Direction = false;
 
-        animator = transform.FindChild("Render Object").GetComponent<Animator>();
+        animator = transform.Find("Render Object").GetComponent<Animator>();
         isAttack = false;
     }
 	
@@ -51,16 +51,6 @@ public class MonsterController : MonoBehaviour {
         Move();
         AnimationSetting();
         LeftRight();
-
-        if(isAttack)
-        {
-            Attack();
-        }
-    }
-
-    void Attack()
-    {
-        
     }
 
     void Move()

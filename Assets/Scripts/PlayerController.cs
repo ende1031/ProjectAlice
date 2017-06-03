@@ -52,6 +52,8 @@ public class PlayerController : MonoBehaviour {
 
     //목숨(하트)
     public int HartCount;
+    float HitTimer;
+    public bool ColPossible;
 
     // Use this for initialization
     void Start ()
@@ -68,6 +70,9 @@ public class PlayerController : MonoBehaviour {
         animator = GetComponent<Animator>();
         isMove = false;
 
+        ColPossible = false;
+        HitTimer = 0;
+
         shootSource = GetComponent<AudioSource>();
     }
 	
@@ -78,6 +83,12 @@ public class PlayerController : MonoBehaviour {
         Move();
         LeftRight();
         AnimationSetting();
+        HitTimer += Time.deltaTime;
+
+        if (HartCount > 0 && HitTimer > 0.5f)
+            ColPossible = true;
+        else
+            ColPossible = false;
     }
 
     //입력을 받음
@@ -256,5 +267,11 @@ public class PlayerController : MonoBehaviour {
             animator.SetBool("isGround", this.CharacterController.isGrounded);
             animator.SetBool("isAttack", isAttack);
         }
+    }
+
+    public void ColHitbox()
+    {
+        HartCount--;
+        HitTimer = 0;
     }
 }
