@@ -55,6 +55,16 @@ public class PlayerController : MonoBehaviour {
     float HitTimer;
     public bool ColPossible;
 
+    //상태 이상
+    enum StatusEffect : short {
+        None,           //~000
+        Slow = 1,       //~001
+        Stun = 1 << 1}; //~010
+    private StatusEffect statusFlag = StatusEffect.None;
+
+    float slowDuration = 0;
+    //float slowReserved = 0; // 슬로우 중첩 방식에 따라 사용하지 않을 것도 같아 보류.
+
     // Use this for initialization
     void Start ()
     {
@@ -88,6 +98,15 @@ public class PlayerController : MonoBehaviour {
             ColPossible = true;
         else
             ColPossible = false;
+
+        if (slowDuration > 0)
+            slowDuration -= Time.deltaTime;
+        if (slowDuration < 0)
+        {
+            slowDuration = 0;
+            ReleaseStatus(StatusEffect.Slow);
+        }
+
     }
 
     //입력을 받음
@@ -272,5 +291,43 @@ public class PlayerController : MonoBehaviour {
     {
         HartCount--;
         HitTimer = 0;
+    }
+
+
+    public void Slow(float degree, float time)
+    {
+        StartCoroutine(SlowByTimeAndReset(degree, time));
+    }
+
+    IEnumerator SlowByTimeAndReset(float degree, float time)
+    {
+        if (time > slowDuration)
+            slowDuration = time;
+
+        AddStatus(StatusEffect.Slow);
+
+        float slowEffective = degree > Speed ? Speed : degree;
+
+        Speed -= slowEffective;
+
+        yield return new WaitForSeconds(time);
+
+        Speed += slowEffective;
+             
+    }
+
+    void AddStatus(StatusEffect se)
+    {
+        statusFlag |= se;
+    }
+
+    bool CheckStatus(StatusEffect se)
+    {
+        return ((statusFlag & se) != 0);
+    }
+
+    void ReleaseStatus(StatusEffect se)
+    {
+        statusFlag &= ~se;
     }
 }
