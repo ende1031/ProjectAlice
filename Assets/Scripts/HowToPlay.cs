@@ -12,9 +12,9 @@ public class HowToPlay : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKey(KeyCode.Return))
+        if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.Escape) || Input.GetKey(KeyCode.Space))
         {
-            SceneManager.LoadScene("Stage1");
+            SceneManager.LoadScene("main");
         }
     }
 }
