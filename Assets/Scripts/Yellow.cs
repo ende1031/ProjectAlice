@@ -47,10 +47,10 @@ public class Yellow : MonoBehaviour
                     Debug.Log("exit");
                     break;
                 case 2:
-                    SceneManager.LoadScene("Cartoon");
+                    GameManager.instance.FadeAndLoadScene("Cartoon");
                     break;
                 case 3:
-                    SceneManager.LoadScene("HowToPlay");
+                    GameManager.instance.FadeAndLoadScene("HowToPlay");
                     break;
             }
         }

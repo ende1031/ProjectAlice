@@ -32,7 +32,7 @@ public class ct_camera : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
             {
-                SceneManager.LoadScene("Stage1");
+                GameManager.instance.FadeAndLoadScene("Stage1");
             }
         }
 

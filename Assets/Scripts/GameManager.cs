@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
 
     }
 
+    //첫 씬 로드
     private IEnumerator Start()
     {
         faderCanvasGroup.alpha = 1f;

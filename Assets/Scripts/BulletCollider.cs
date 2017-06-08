@@ -60,11 +60,24 @@ public class BulletCollider : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         //쓸모 없는 충돌 리턴.
-        if (other.gameObject.tag == "Player" || other.gameObject.tag == "HitBox")
+        if (other.gameObject.tag == "HitBox" || other.gameObject.tag == "Bullet" || other.gameObject.tag == "Bazooka")
         {
             return;
         }
 
+        if (other.gameObject.tag == "Player")
+        {
+            if (other.GetComponent<PlayerController>().isDie == true)
+            {
+                if (this.gameObject.tag == "Bullet")
+                     other.GetComponent<PlayerController>().tombstoneHP--;
+                 else if (this.gameObject.tag == "Bazooka")
+                       other.GetComponent<PlayerController>().tombstoneHP -= 3;
+            }
+            else
+                return;
+        }
+                 
         Instantiate(explosion, transform.position, transform.rotation);
         GameManager.instance.RandomizeSfx(hitSound1);
 
@@ -76,9 +89,9 @@ public class BulletCollider : MonoBehaviour {
             //해당 몬스터 삭제
             Destroy(other.gameObject);
         }
-        
-        Destroy(this.gameObject);
-        
+
+        if (this.gameObject.tag == "Bullet")
+            Destroy(this.gameObject); //바주카는 삭제 안하고 관통샷        
     }
 
     //왼쪽으로 갈땐 스프라이트를 뒤집음

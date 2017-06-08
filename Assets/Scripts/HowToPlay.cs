@@ -14,7 +14,7 @@ public class HowToPlay : MonoBehaviour {
 	void Update () {
         if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.Escape) || Input.GetKey(KeyCode.Space))
         {
-            SceneManager.LoadScene("main");
+            GameManager.instance.FadeAndLoadScene("main");
         }
     }
 }

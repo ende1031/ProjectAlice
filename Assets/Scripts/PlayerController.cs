@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour {
     float Attack_Pre_delay; //공격 시전 모션
     float delay;
     Vector3 MakeBulletPosition;
+    Quaternion MakeBulletRotation;
 
     //다른 플레이어
     public GameObject OtherPlayer;
@@ -54,6 +55,10 @@ public class PlayerController : MonoBehaviour {
     public int HartCount;
     float HitTimer;
     public bool ColPossible;
+    public bool isDie;
+    public int tombstoneHP;
+
+    public bool canMove;
 
     //상태 이상
     enum StatusEffect : short {
@@ -79,17 +84,26 @@ public class PlayerController : MonoBehaviour {
 
         animator = GetComponent<Animator>();
         isMove = false;
+        isAttack = false;
 
         ColPossible = false;
         HitTimer = 0;
+        isDie = false;
+        tombstoneHP = 5;
+
+        canMove = false;
 
         shootSource = GetComponent<AudioSource>();
     }
 	
 	void FixedUpdate ()
     {
-        playerInput();
-        Move();
+        if (!isDie)
+        {
+            if (canMove)
+                playerInput();
+            Move();
+        }
         LeftRight();
         AnimationSetting();
         HitTimer += Time.deltaTime;
@@ -98,6 +112,16 @@ public class PlayerController : MonoBehaviour {
             ColPossible = true;
         else
             ColPossible = false;
+
+        if (HartCount <= 0 && isDie == false)
+        {
+            Die();
+        }
+
+        if (tombstoneHP <= 0 && isDie == true)
+        {
+            revival();
+        }
 
         if (slowDuration > 0)
             slowDuration -= Time.deltaTime;
@@ -109,6 +133,35 @@ public class PlayerController : MonoBehaviour {
 
     }
 
+    //죽었을 때 한번만 실행
+    void Die()
+    {
+        //죽는 효과음도 여기에
+        tombstoneHP = 5;
+        isDie = true;
+        isMove = false;
+        isAttack = false;
+    }
+
+    //부활시 한번만 실행
+    void revival()
+    {
+        //부활 효과음도 여기에
+        HartCount = 3;
+        isDie = false;
+    }
+
+
+    //void ShootSound_Play()
+    //{
+    //    shootSource.Play();
+    //}
+
+    //void ShootSound_Stop()
+    //{
+    //    shootSource.Stop();    
+    //}
+
     //입력을 받음
     void playerInput()
     {
@@ -117,8 +170,8 @@ public class PlayerController : MonoBehaviour {
         {
             Attack();    
         }
-        if(Input.GetKeyUp(Key.Attack))
-        {
+        else
+        { 
             Attack_Pre_delay = 0;
             isAttack = false;
         }
@@ -216,22 +269,24 @@ public class PlayerController : MonoBehaviour {
     {
         isAttack = true;
         Attack_Pre_delay += Time.deltaTime;
-        if (Attack_Pre_delay > 0.4f && Time.time > delay)
+        if (Attack_Pre_delay > 0.25f && Time.time > delay)
         {
             shootSource.Play();
 
-            MakeBulletPosition = new Vector3(transform.position.x, transform.position.y - 3.5f, transform.position.z);
+            MakeBulletPosition = new Vector3(transform.position.x, transform.position.y - 3.0f, transform.position.z);
+            MakeBulletRotation = Quaternion.Euler(90, 180, 0);
             if (Direction == DirLeft)
             {
-                Instantiate(PrefabBullet, MakeBulletPosition, transform.rotation).GetComponent<BulletCollider>().Direction = DirLeft;
+                Instantiate(PrefabBullet, MakeBulletPosition, MakeBulletRotation).GetComponent<BulletCollider>().Direction = DirLeft;
             }
             else if (Direction == DirRight)
             {
-                Instantiate(PrefabBullet, MakeBulletPosition, transform.rotation).GetComponent<BulletCollider>().Direction = DirRight;
+                Instantiate(PrefabBullet, MakeBulletPosition, MakeBulletRotation).GetComponent<BulletCollider>().Direction = DirRight;
             }
             delay = AttackSpeed + Time.time;
         }
     }
+
 
     //플레이어 1,2에 따라 키설정
     void KeySetting()
@@ -284,6 +339,7 @@ public class PlayerController : MonoBehaviour {
             animator.SetBool("isMove", isMove);
             animator.SetBool("isGround", this.CharacterController.isGrounded);
             animator.SetBool("isAttack", isAttack);
+            animator.SetBool("isDie", isDie);
         }
     }
 
