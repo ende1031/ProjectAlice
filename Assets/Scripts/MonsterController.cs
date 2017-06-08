@@ -59,17 +59,14 @@ public class MonsterController : MonoBehaviour {
         TargetPos_temp = Players[1].transform.position;
         TagetDistans = Vector3.Magnitude(transform.position - TargetPos);
         AttackTarget = Players[0];
-        if (TagetDistans > Vector3.Magnitude(transform.position - TargetPos_temp) || Players[0].GetComponent<PlayerController>().isDie == true)
+        if (TagetDistans > Vector3.Magnitude(transform.position - TargetPos_temp))
         {
-            if (Players[1].GetComponent<PlayerController>().isDie == false)
-            {
-                AttackTarget = Players[1];
-                TargetPos = TargetPos_temp;
-                TagetDistans = Vector3.Magnitude(transform.position - TargetPos);
-            }
+            AttackTarget = Players[1];
+            TargetPos = TargetPos_temp;
+            TagetDistans = Vector3.Magnitude(transform.position - TargetPos);
         }
 
-        if (TagetDistans < 10.0f && AttackTarget.GetComponent<PlayerController>().isDie == false)
+        if (TagetDistans < 10.0f)
         {
             MoveDirection = Vector3.zero;
             isAttack = true;
@@ -77,7 +74,7 @@ public class MonsterController : MonoBehaviour {
         else
         {
             isAttack = false;
-            if (TagetDistans < AggroRange && AttackTarget.GetComponent<PlayerController>().isDie == false)
+            if (TagetDistans < AggroRange)
             {
                 MoveDirection.x = (transform.position.x - TargetPos.x) / -TagetDistans * MoveSpeed * Time.deltaTime;
                 MoveDirection.z = (transform.position.z - TargetPos.z) / -TagetDistans * MoveSpeed * Time.deltaTime;
