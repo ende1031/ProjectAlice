@@ -133,6 +133,8 @@ public class BulletCollider : MonoBehaviour {
                 score.ScoreCount += other.GetComponent<Boss3>().Score;
                 //해당 몬스터 삭제
                 Destroy(other.gameObject);
+                GameManager.instance.isClear = true;
+                GameManager.instance.FadeAndLoadScene("Persistent");
             }
         }
 

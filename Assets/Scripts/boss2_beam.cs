@@ -13,6 +13,4 @@ public class boss2_beam : MonoBehaviour {
 	void Update () {
 		
 	}
-
-    
 }

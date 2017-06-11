@@ -9,6 +9,10 @@ public class Yellow : MonoBehaviour
 
     int num;
 
+    public GameObject esc;
+    public GameObject yellow;
+    public GameObject config;
+
     // Use this for initialization
     void Start()
     {
@@ -50,7 +54,9 @@ public class Yellow : MonoBehaviour
                     GameManager.instance.FadeAndLoadScene("Cartoon");
                     break;
                 case 3:
-                    GameManager.instance.FadeAndLoadScene("HowToPlay");
+                    esc.SetActive(false);
+                    yellow.SetActive(false);
+                    config.SetActive(true);
                     break;
             }
         }

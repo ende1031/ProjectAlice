@@ -125,7 +125,7 @@ public class Boss3 : MonoBehaviour
                     }
                     attackCount++;
                 }
-                else if (attackCount == 4)
+                else if (attackCount == 4) //소환된 몬스터에게 맞으면 슬로우
                 {
                     isAttack1 = true;
                     temp.y = 8;
@@ -135,12 +135,11 @@ public class Boss3 : MonoBehaviour
                     Instantiate(monster, temp, transform.rotation);
                     attackCount++;
                 }
-                else if (attackCount == 5)
+                else if (attackCount == 5) //스턴
                 {
                     isAttack2 = true;
-                    //상태이상 여기에 넣으면 됨
-                    //Players[0].GetComponent<PlayerController>().상태이상 슬로우
-                    //Players[1].GetComponent<PlayerController>().상태이상 슬로우
+                    Players[0].GetComponent<PlayerController>().Stun(Random.Range(1.0f,3.0f));
+                    Players[1].GetComponent<PlayerController>().Stun(Random.Range(1.0f, 3.0f));
                     attackCount = 0;
                 }
                 coolTime = 0;

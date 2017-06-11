@@ -28,6 +28,9 @@ public class MonsterController : MonoBehaviour {
     //스토어 관련
     public int Score; //처치시 획득하는 스코어
 
+    public bool isDisabler;
+   
+
     // Use this for initialization
     void Start ()
     {

@@ -22,8 +22,12 @@ public class GameManager : MonoBehaviour
 
     public string startingSceneName = "main";      //첫 씬 이름.
 
+    public bool isClear;
     public GameObject UICanvas;
     public GameObject GameOverCanvas;
+    public Text scoreText;
+    public Text gameEndText;
+    //inumerate?
 
     void Awake()
     {
@@ -35,8 +39,10 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-            
 
+        isClear = false;
+        efxSource.ignoreListenerPause = true;
+ 
         DontDestroyOnLoad(gameObject);
 
     }
@@ -152,7 +158,9 @@ public class GameManager : MonoBehaviour
     void SetGameover()
     {
         GameOverCanvas.SetActive(true);
-        GameOverCanvas.GetComponentInChildren<Text>().text += UICanvas.GetComponentInChildren<Score>().ScoreCount;
+        if (isClear)
+            gameEndText.text = "Clear!";
+        scoreText.text += UICanvas.GetComponentInChildren<Score>().ScoreCount;
         HideUI();
     }
 }

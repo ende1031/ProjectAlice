@@ -69,7 +69,10 @@ public class PlayerController : MonoBehaviour {
     private StatusEffect statusFlag = StatusEffect.None;
 
     float slowDuration = 0;
+    float stunDuration = 0;
     //float slowReserved = 0; // 슬로우 중첩 방식에 따라 사용하지 않을 것도 같아 보류.
+    public GameObject stunImage;
+    public GameObject slowImage;
 
     // Use this for initialization
     void Start ()
@@ -88,7 +91,6 @@ public class PlayerController : MonoBehaviour {
         animator = GetComponent<Animator>();
         isMove = false;
         isAttack = false;
-
         
         ColPossible = false;
         HitTimer = 0;
@@ -106,7 +108,7 @@ public class PlayerController : MonoBehaviour {
 	
 	void FixedUpdate ()
     {
-        if (!isDie)
+        if (!isDie && !CheckStatus(StatusEffect.Stun))
         {
             if (canMove)
             {
@@ -134,12 +136,23 @@ public class PlayerController : MonoBehaviour {
             revival();
         }
 
+        //status pattern?
         if (slowDuration > 0)
             slowDuration -= Time.deltaTime;
         if (slowDuration < 0)
         {
             slowDuration = 0;
             ReleaseStatus(StatusEffect.Slow);
+            slowImage.SetActive(false);
+        }
+
+        if (stunDuration > 0)
+            stunDuration -= Time.deltaTime;
+        if (stunDuration < 0)
+        {
+            stunDuration = 0;
+            ReleaseStatus(StatusEffect.Stun);
+            stunImage.SetActive(false);
         }
     }
 
@@ -151,6 +164,11 @@ public class PlayerController : MonoBehaviour {
         isDie = true;
         isMove = false;
         isAttack = false;
+        ReleaseStatus(statusFlag);
+        stunDuration = 0;
+        slowDuration = 0;
+        slowImage.SetActive(false);
+        stunImage.SetActive(false);
 
         if (OtherPlayer.GetComponent<PlayerController>().isDie)
         {
@@ -376,16 +394,31 @@ public class PlayerController : MonoBehaviour {
 
     public void Slow(float degree, float time)
     {
+        if (time > slowDuration)
+            slowDuration = time;
+
+        slowImage.SetActive(true);
+        AddStatus(StatusEffect.Slow);
+        
         StartCoroutine(SlowByTimeAndReset(degree, time));
+    }
+
+    public void Stun(float time)
+    {
+        if (time > stunDuration)
+            stunDuration = time;
+
+        stunImage.SetActive(true);
+        AddStatus(StatusEffect.Stun);
+        isAttack = false;
+        isMove = false;
+        MoveDirection.x = 0;
+        MoveDirection.y = 0;
+        MoveDirection.z = 0;
     }
 
     IEnumerator SlowByTimeAndReset(float degree, float time)
     {
-        if (time > slowDuration)
-            slowDuration = time;
-
-        AddStatus(StatusEffect.Slow);
-
         float slowEffective = degree > Speed ? Speed : degree;
 
         Speed -= slowEffective;
@@ -393,7 +426,6 @@ public class PlayerController : MonoBehaviour {
         yield return new WaitForSeconds(time);
 
         Speed += slowEffective;
-             
     }
 
     void AddStatus(StatusEffect se)

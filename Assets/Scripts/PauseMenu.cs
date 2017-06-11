@@ -10,6 +10,7 @@ public class PauseMenu : MonoBehaviour {
     //일시 정지 메뉴
     public GameObject background;                        
     public GameObject pauseMenu;
+    public GameObject interfaceMenu;
     //todo 해상도, 사운드 볼륨 슬라이더  
                    
     private GameObject activeMenu;
@@ -27,14 +28,12 @@ public class PauseMenu : MonoBehaviour {
         if (background.activeInHierarchy == false) //메뉴 창이 없는 상태 였다면
         {
             GameManager.instance.PlayBS();
-            //이전에 초기 일시 정지 메뉴가 아닌 다른 화면이었을 경우 초기화.
+            //이전에 초기 일시 정지 메뉴가 아닌 다른 화면이었을 경우 초기화. // 
             if (pauseMenu.activeInHierarchy == false)
             {
                 pauseMenu.SetActive(true);
                 activeMenu = pauseMenu;
                 
-                // soundsMenu.gameObject.SetActive(false);
-                // videoMenu.gameObject.SetActive(false);
             }
             background.SetActive(true);
             Time.timeScale = 0; //정지
@@ -57,6 +56,23 @@ public class PauseMenu : MonoBehaviour {
     public void BackToMain()
     {
         Resume();
+        GameManager.instance.HideUI();
         GameManager.instance.FadeAndLoadScene("main");
+    }
+
+    public void InterfaceMenu()
+    {
+        GameManager.instance.PlayBS();
+        pauseMenu.SetActive(false);
+        interfaceMenu.SetActive(true);
+        activeMenu = interfaceMenu;
+    }
+
+    public void ExitInterfaceMenu()
+    {
+        GameManager.instance.PlayBS();
+        interfaceMenu.SetActive(false);
+        pauseMenu.SetActive(true);
+        activeMenu = pauseMenu;
     }
 }
