@@ -27,6 +27,8 @@ public class Dialogue : MonoBehaviour
         DialogueNum = 0;
         DialogueEnd = false;
         Players = GameObject.FindGameObjectsWithTag("Player");
+
+        GameManager.instance.HideUI();
     }
 
     // Update is called once per frame
@@ -38,6 +40,9 @@ public class Dialogue : MonoBehaviour
             {
                 Players[0].GetComponent<PlayerController>().canMove = true;
                 Players[1].GetComponent<PlayerController>().canMove = true;
+
+                GameManager.instance.ShowUI();
+
                 Destroy(this.gameObject);
             }
             else

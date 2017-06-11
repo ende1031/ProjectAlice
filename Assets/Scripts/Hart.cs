@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Hart : MonoBehaviour {
 
     int HartCount;
-    public GameObject Player;
 
     public Sprite Hart0;
     public Sprite Hart1;
@@ -21,12 +20,12 @@ public class Hart : MonoBehaviour {
     void Start () {
         HartImage = GetComponent<Image>();
     }
-	
-	// Update is called once per frame
-	void Update () {
-        this.HartCount = Player.GetComponent<PlayerController>().HartCount;
 
-        switch(this.HartCount)
+    public void SetHP(int hp)
+    {
+        HartCount = hp;
+
+        switch (HartCount)
         {
             case 0:
                 HartImage.sprite = Hart0;

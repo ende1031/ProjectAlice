@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 //Persistent 씬에 계속 남아 다음을 관리한다.
 //버튼음 등등 재생 (다른 함수도 만들어 놨는데 마땅한 소스가 없다), 씬 컨트롤(async 페이드 사용)
@@ -20,6 +21,9 @@ public class GameManager : MonoBehaviour
     private bool isFading;
 
     public string startingSceneName = "main";      //첫 씬 이름.
+
+    public GameObject UICanvas;
+    public GameObject GameOverCanvas;
 
     void Awake()
     {
@@ -44,6 +48,19 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(LoadSceneAndSetActive(startingSceneName));
         StartCoroutine(Fade(0f));
     }
+
+
+    //ui창 표시
+    public void ShowUI()
+    {
+        UICanvas.SetActive(true);
+    }
+
+    public void HideUI()
+    {
+        UICanvas.SetActive(false);
+    }
+   
 
 
     //간단한 재생. 게임 오버, 버튼 선택 등에 쓰일 것.
@@ -92,8 +109,15 @@ public class GameManager : MonoBehaviour
 
         yield return SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);
 
-        yield return StartCoroutine(LoadSceneAndSetActive(sceneName));
-        
+        if (sceneName != "persistent")
+        {
+            yield return StartCoroutine(LoadSceneAndSetActive(sceneName));
+        }
+        else
+        {
+            SetGameover();
+        }
+
         yield return StartCoroutine(Fade(0f));
     }
 
@@ -123,5 +147,12 @@ public class GameManager : MonoBehaviour
 
         isFading = false;
 
+    }
+
+    void SetGameover()
+    {
+        GameOverCanvas.SetActive(true);
+        GameOverCanvas.GetComponentInChildren<Text>().text += UICanvas.GetComponentInChildren<Score>().ScoreCount;
+        HideUI();
     }
 }

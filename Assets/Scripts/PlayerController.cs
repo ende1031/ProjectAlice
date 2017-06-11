@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour {
     public bool ColPossible;
     public bool isDie;
     public int tombstoneHP;
+    Hart heart;
 
     public bool canMove;
 
@@ -86,6 +87,7 @@ public class PlayerController : MonoBehaviour {
         isMove = false;
         isAttack = false;
 
+        
         ColPossible = false;
         HitTimer = 0;
         isDie = false;
@@ -94,6 +96,10 @@ public class PlayerController : MonoBehaviour {
         canMove = false;
 
         shootSource = GetComponent<AudioSource>();
+
+        Hart[] hs = GameManager.instance.UICanvas.GetComponentsInChildren<Hart>();
+        heart = hs[PlayerNumber - 1];
+        
     }
 	
 	void FixedUpdate ()
@@ -141,6 +147,12 @@ public class PlayerController : MonoBehaviour {
         isDie = true;
         isMove = false;
         isAttack = false;
+
+        if (OtherPlayer.GetComponent<PlayerController>().isDie)
+        {
+            GameManager.instance.FadeAndLoadScene("persistent");//GameOver
+        }
+
     }
 
     //부활시 한번만 실행
@@ -148,19 +160,25 @@ public class PlayerController : MonoBehaviour {
     {
         //부활 효과음도 여기에
         HartCount = 3;
+        SyncHPUI();
+
         isDie = false;
     }
 
+    void SyncHPUI()
+    {
+        heart.SetHP(HartCount);
+    }
 
-    //void ShootSound_Play()
-    //{
-    //    shootSource.Play();
-    //}
+    void ShootSound_Play()
+    {
+        shootSource.Play();
+    }
 
-    //void ShootSound_Stop()
-    //{
-    //    shootSource.Stop();    
-    //}
+    void ShootSound_Stop()
+    {
+        shootSource.Stop();
+    }
 
     //입력을 받음
     void playerInput()
@@ -346,6 +364,7 @@ public class PlayerController : MonoBehaviour {
     public void ColHitbox()
     {
         HartCount--;
+        SyncHPUI();
         HitTimer = 0;
     }
 
