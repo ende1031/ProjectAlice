@@ -77,6 +77,8 @@ public class PlayerController : MonoBehaviour {
         CharacterController = GetComponent<CharacterController>();
         KeySetting();
 
+        HartCount = 3;
+
         Scale = transform.localScale;
         TempPosition = transform.position;
         DirLeft = true;
@@ -107,7 +109,10 @@ public class PlayerController : MonoBehaviour {
         if (!isDie)
         {
             if (canMove)
+            {
                 playerInput();
+                SyncHPUI();
+            }
             Move();
         }
         LeftRight();
@@ -136,7 +141,6 @@ public class PlayerController : MonoBehaviour {
             slowDuration = 0;
             ReleaseStatus(StatusEffect.Slow);
         }
-
     }
 
     //죽었을 때 한번만 실행
@@ -195,10 +199,11 @@ public class PlayerController : MonoBehaviour {
         }
        
         //총소리가 발사 간격 보다 길게 재생되지 않게 중지.
+        /*
         if (shootSource.isPlaying && Time.time > delay)
         {
             shootSource.Stop();
-        }
+        }*/
 
         //공격중 이동불가
         if (isAttack == false)
@@ -289,7 +294,7 @@ public class PlayerController : MonoBehaviour {
         Attack_Pre_delay += Time.deltaTime;
         if (Attack_Pre_delay > 0.25f && Time.time > delay)
         {
-            shootSource.Play();
+            //shootSource.Play();
 
             MakeBulletPosition = new Vector3(transform.position.x, transform.position.y - 3.0f, transform.position.z);
             MakeBulletRotation = Quaternion.Euler(90, 180, 0);

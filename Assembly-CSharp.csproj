@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{8D0FEC2B-C1E1-D831-0B10-C2752ADBC994}</ProjectGuid>
+    <ProjectGuid>{6ADCF21C-15BB-044E-2361-04AECC606665}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -46,21 +46,31 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Boss1.cs" />
+     <Compile Include="Assets\Scripts\Boss2.cs" />
+     <Compile Include="Assets\Scripts\Boss3.cs" />
      <Compile Include="Assets\Scripts\BulletCollider.cs" />
      <Compile Include="Assets\Scripts\Button_GameStart.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
+     <Compile Include="Assets\Scripts\DestroyByTime.cs" />
      <Compile Include="Assets\Scripts\Dialogue.cs" />
+     <Compile Include="Assets\Scripts\Disabler.cs" />
+     <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Hart.cs" />
      <Compile Include="Assets\Scripts\HitBox.cs" />
      <Compile Include="Assets\Scripts\HitboxOnOff.cs" />
      <Compile Include="Assets\Scripts\HowToPlay.cs" />
      <Compile Include="Assets\Scripts\LightAlpa.cs" />
      <Compile Include="Assets\Scripts\MonsterController.cs" />
+     <Compile Include="Assets\Scripts\PauseMenu.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\ScenceChanger.cs" />
      <Compile Include="Assets\Scripts\Score.cs" />
-     <Compile Include="Assets\Scripts\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Yellow.cs" />
+     <Compile Include="Assets\Scripts\boss2_beam.cs" />
+     <Compile Include="Assets\Scripts\boss2_beam_destroy.cs" />
      <Compile Include="Assets\Scripts\ct_camera.cs" />
+     <Compile Include="Assets\Scripts\ladder.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

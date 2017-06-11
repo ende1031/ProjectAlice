@@ -60,6 +60,9 @@ public class Dialogue : MonoBehaviour
             case 3:
                 Stage3Dialogue();
                 break;
+            case 4:
+                FinalDialogue();
+                break;
         }
     }
 
@@ -240,6 +243,35 @@ public class Dialogue : MonoBehaviour
                 Illust.sprite = DianaSprite;
                 Name.text = "디아나";
                 Text.text = "출발이다냥!";
+                DialogueEnd = true;
+                break;
+        }
+    }
+
+    //여왕 등장 대화
+    void FinalDialogue()
+    {
+        switch (DialogueNum)
+        {
+            case 0:
+                Illust.sprite = AliceSprite;
+                Name.text = "앨리스";
+                Text.text = "저 사람은..?!";
+                break;
+            case 1:
+                Illust.sprite = DianaSprite;
+                Name.text = "디아나";
+                Text.text = "이 성의 여왕인 것 같다냥.\n이상한 나라의 지배자 하트퀸이다냥.";
+                break;
+            case 2:
+                Illust.sprite = DianaSprite;
+                Name.text = "디아나";
+                Text.text = "저 여왕한테서 주인님의 엄마님 냄새가 난다냥.";
+                break;
+            case 3:
+                Illust.sprite = AliceSprite;
+                Name.text = "앨리스";
+                Text.text = "하지만 싸울 수 밖에 없어…….";
                 DialogueEnd = true;
                 break;
         }
